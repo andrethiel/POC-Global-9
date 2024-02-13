@@ -1,7 +1,9 @@
 ﻿@using POC.Web.Extensions
-@model FornecedorViewModel
+@using POC.Negocio.Enumerador
+
+@model MaterialViewModel
 @{
-    IEnumerable<FornecedorViewModel> lista = (IEnumerable<FornecedorViewModel>)ViewData["Fornecedor"];
+    IEnumerable<MaterialViewModel> lista = (IEnumerable<MaterialViewModel>)ViewData["Material"];
 }
 
 <div class="container">
@@ -9,16 +11,21 @@
     <div class="row gap-3 clearfix">
         <input type="hidden" id="id" value="@Model.Id" />
         <div class="col-12">
-            <input class="form-control" id="cnpj" value="@Model.CNPJ" placeholder="CNPJ" />
+            <input class="form-control" id="codigo" value="@Model.Codigo" placeholder="Código" />
         </div>
         <div class="col-12">
-            <input class="form-control" id="razao" value="@Model.RazaoSocial" placeholder="Razão Social" />
+            <input class="form-control" id="nomeMaterial" value="@Model.NomeMaterial" placeholder="Nome do material" />
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="UnidadeMedida" asp-items="Html.GetEnumSelectList<UnidadeMedida>()" value="@Model.UnidadeMedida" id="unidadeMedida">
+                <option value="">Selecione a unidade de medida</option>
+            </select>
         </div>
     </div>
     <div style="margin-bottom: 10px">
         <button class="btn btn-primary" id="salvar">Salvar</button>
     </div>
-    
+
 
     <div class="row">
         <div class="col-12">
@@ -26,8 +33,9 @@
                 .Grid(lista)
                 .Build(columns =>
                 {
-                    columns.Add(x => x.CNPJ).Titled("CNPJ");
-                    columns.Add(x => x.RazaoSocial).Titled("Razão Social");
+                    columns.Add(x => x.Codigo).Titled("Código");
+                    columns.Add(x => x.NomeMaterial).Titled("Nome do material");
+                    columns.Add(x => x.UnidadeMedida.ToString()).Titled("Unidade de Medida");
                     columns.Add().RenderedAs(x => (
                     Html.ActionLink("Editar", "Buscar", new { Id = x.Id }, new { @class = "btn btn-primary" }).ToHtmlString()
                     + ($"<button style='margin-left: 10px' class='btn btn-danger' onclick='Modal({x.Id})'>Excluir</button>")
@@ -50,7 +58,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="idFornecedor" />
+                <input type="hidden" id="idMaterial" />
                 <p>Desesa excluir essa empresa</p>
             </div>
             <div class="modal-footer">
@@ -60,4 +68,4 @@
     </div>
 </div>
 
-<script src="~/js/Fornecedor.js" asp-append-version="true" />
+<script src="~/js/Material.js" asp-append-version="true" />

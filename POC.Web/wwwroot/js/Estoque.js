@@ -2,28 +2,36 @@
 
 const paramets = {
     id: 0,
-    cnpj: "",
-    razaoSocial: ""
+    data: "",
+    fornecedorId: "",
+    materialId: "",
+    quantidade: 0,
+    valor: 0,
+    tipoOperacao: ""
 };
 
 var errors = [];
 
 j(document).ready(function () {
     Salvar();
-    j("#cnpj").inputmask('99.999.999/9999-99');
 })
 
 function Salvar() {
     j('#salvar').on('click', async function () {
         paramets.id = j('#id').val();
-        paramets.cnpj = j('#cnpj').val();
-        paramets.razaoSocial = j('#razao').val();
-        const response = await j.post('/Fornecedor/Inserir', paramets).fail(function (error) {
+        paramets.data = j('#data').val();
+        paramets.fornecedorId = j('#fornecedorId').val();
+        paramets.materialId = j('#materialId').val();
+        paramets.quantidade = j('#quantidade').val();
+        paramets.valor = j('#valor').val();
+        paramets.tipoOperacao = j('#tipoOperacao').val();
+        const response = await j.post('/Estoque/Inserir', paramets).fail(function (error) {
             errors = error.responseJSON;
             if (errors.length > 0) {
                 errors.map((item) => appendAlert(item.errorMessage, 'danger'))
             }
         });
+
         if (response.sucesso) {
             appendAlert(response.message, 'success')
             refresh()
@@ -35,16 +43,17 @@ function Salvar() {
 
 function Modal(id) {
     j('#modalExcluir').modal('show')
-    j('#idFornecedor').val(id);
+    j('#idEstoque').val(id);
 }
 
 async function Excluir() {
-    const response = await j.get(`/Fornecedor/Deletar?id=${j('#idFornecedor').val()}`).fail(function (error) {
+    const response = await j.get(`/Estoque/Deletar?id=${j('#idEstoque').val()}`).fail(function (error) {
         errors = error.responseJSON;
         if (errors.length > 0) {
             errors.map((item) => appendAlert(item.errorMessage, 'danger'))
         }
-    });    
+    });
+
     if (response.sucesso) {
         appendAlert(response.message, 'success')
         refresh()

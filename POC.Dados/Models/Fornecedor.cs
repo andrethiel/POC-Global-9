@@ -8,7 +8,7 @@ namespace POC.Dados.Models
 {
     public class Fornecedor
     {
-        public int ID { get; private set; }
+        public int Id { get; private set; }
         public string CNPJ { get; private set; }
         public string RazaoSocial { get; private set; }
 
@@ -19,9 +19,9 @@ namespace POC.Dados.Models
 
         public Fornecedor(int id, string cnpj, string razaoSocial)
         {
-            ID = id;
-            CNPJ = cnpj;
-            RazaoSocial = razaoSocial;
+            this.Id = id;
+            this.CNPJ = cnpj;
+            this.RazaoSocial = razaoSocial;
         }
     }
 }

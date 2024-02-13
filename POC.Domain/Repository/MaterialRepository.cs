@@ -4,33 +4,34 @@ using POC.Dados.Models;
 using POC.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace POC.Domain.Repository
 {
-    public class FornecedorRepository : IFornecedorRepository
+    public class MaterialRepository : IMaterialRepository
     {
         private readonly IDataContext _context;
-        public FornecedorRepository(IDataContext context) { _context = context; }
+        public MaterialRepository(IDataContext context)
+        {
+            _context = context;
+        }
 
-        public async Task<Fornecedor> BuscarId(int id)
+        public async Task<Material> BuscarId(int id)
         {
             try
             {
                 var param = new DynamicParameters();
                 param.Add("@Id", id);
 
-                string sql = $"SP_Fornecedor_BuscarId";
+                string sql = $"SP_Material_BuscarId";
 
-                return await _context.ExecuteQuery<Fornecedor>(sql, param);
+                return await _context.ExecuteQuery<Material>(sql, param);
             }
             catch
             {
-                throw new Exception("Erro ao buscar fornecedor");
+                throw new Exception("Erro ao buscar material");
             }
         }
 
@@ -41,26 +42,27 @@ namespace POC.Domain.Repository
                 var param = new DynamicParameters();
                 param.Add("@Id", id);
 
-                string sql = $"SP_Fornecedor_Deletar";
+                string sql = $"SP_Material_Deletar";
 
                 await _context.ExecuteSave(sql, param);
             }
             catch
             {
-                throw new Exception("Erro ao deletar fornecedor");
+                throw new Exception("Erro ao deletar material");
             }
         }
 
-        public async Task Editar(Fornecedor model)
+        public async Task Editar(Material model)
         {
             try
             {
                 var param = new DynamicParameters();
                 param.Add("@Id", model.Id);
-                param.Add("@CNPJ", model.CNPJ);
-                param.Add("@RazaoSocial", model.RazaoSocial);
+                param.Add("@Codigo", model.Codigo);
+                param.Add("@NomeMaterial", model.NomeMaterial);
+                param.Add("@UnidadeMedida", model.UnidadeMedida);
 
-                string sql = $"SP_Fornecedor_Editar";
+                string sql = $"SP_Material_Editar";
 
                 await _context.ExecuteSave(sql, param);
             }
@@ -70,12 +72,12 @@ namespace POC.Domain.Repository
             }
         }
 
-        public async Task<IEnumerable<Fornecedor>> Listar()
+        public async Task<IEnumerable<Material>> Listar()
         {
             try
             {
-                string sql = $"SP_Fornecedor_Listar";
-                return await _context.ExecuteList<Fornecedor>(sql, null);
+                string sql = $"SP_Material_Listar";
+                return await _context.ExecuteList<Material>(sql, null);
             }
             catch
             {
@@ -83,15 +85,16 @@ namespace POC.Domain.Repository
             }
         }
 
-        public async Task Salvar(Fornecedor model)
+        public async Task Salvar(Material model)
         {
             try
             {
                 var param = new DynamicParameters();
-                param.Add("@CNPJ", model.CNPJ);
-                param.Add("@RazaoSocial", model.RazaoSocial);
+                param.Add("@Codigo", model.Codigo);
+                param.Add("@NomeMaterial", model.NomeMaterial);
+                param.Add("@UnidadeMedida", model.UnidadeMedida);
 
-                string sql = $"SP_Fornecedor_Inserir";             
+                string sql = $"SP_Material_Inserir";
 
                 await _context.ExecuteSave(sql, param);
             }

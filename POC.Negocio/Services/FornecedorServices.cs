@@ -44,7 +44,7 @@ namespace POC.Negocio.Services
             var dados = await _fornecedorRepository.Listar();
             return dados.Select(x => new FornecedorViewModel()
             {
-                Id = x.ID,
+                Id = x.Id,
                 CNPJ = x.CNPJ,
                 RazaoSocial = x.RazaoSocial,
             });

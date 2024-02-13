@@ -1,32 +1,34 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using POC.Negocio.Interfaces;
+using POC.Negocio.Services;
 using POC.Negocio.ViewModels;
 using POC.Negocio.ViewModels.ErrorsValidator;
-using System.Reflection;
 
 namespace POC.Web.Controllers
 {
-    public class FornecedorController : Controller
+    
+    public class MaterialController : Controller
     {
-        private readonly IFornecedorServices _fornecedorService;
-        private readonly IValidator<FornecedorViewModel> _validator;
-        public FornecedorController(IFornecedorServices fornecedorService, IValidator<FornecedorViewModel> validator)
+        private readonly IMaterialServices _materialServices;
+        private readonly IValidator<MaterialViewModel> _validator;
+
+        public MaterialController(IMaterialServices materialServices, IValidator<MaterialViewModel> validator)
         {
-            _fornecedorService = fornecedorService;
+            _materialServices = materialServices;
             _validator = validator;
         }
-        [Route("Fornecedor")]
+
+        [Route("Material")]
         public async Task<IActionResult> Index()
         {
-            ViewData["Fornecedor"] = await _fornecedorService.Listar();
-
-            return View(new FornecedorViewModel());
+            ViewData["Material"] = await _materialServices.Listar();
+            return View(new MaterialViewModel());
         }
 
-        [Route("Fornecedor/Inserir")]
+        [Route("Material/Inserir")]
         [HttpPost]
-        public async Task<IActionResult> Inserir(FornecedorViewModel model)
+        public async Task<IActionResult> Inserir(MaterialViewModel model)
         {
             var validacao = _validator.Validate(model);
             try
@@ -38,18 +40,18 @@ namespace POC.Web.Controllers
 
                 if (model.Id != 0)
                 {
-                    await _fornecedorService.Editar(model);
+                    await _materialServices.Editar(model);
                 }
                 else
                 {
-                    await _fornecedorService.Salvar(model);
+                    await _materialServices.Salvar(model);
                 }
 
 
 
-                ViewData["Fornecedor"] = await _fornecedorService.Listar();
+                ViewData["Material"] = await _materialServices.Listar();
 
-                return Ok(new Response<FornecedorViewModel>
+                return Ok(new Response<MaterialViewModel>
                 {
                     Message = model.Id != 0 ? "Editado com sucesso" : "Inserido com sucesso",
                     Sucesso = true
@@ -58,7 +60,7 @@ namespace POC.Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response<FornecedorViewModel>
+                return BadRequest(new Response<MaterialViewModel>
                 {
                     Message = ex.Message,
                     Sucesso = false
@@ -67,29 +69,29 @@ namespace POC.Web.Controllers
 
         }
 
-        [Route("/Fornecedor/Buscar")]
-        [Route("/Fornecedor/Buscar/{id}")]
+        [Route("/Material/Buscar")]
+        [Route("/Material/Buscar/{id}")]
         [HttpGet]
         public async Task<IActionResult> Buscar(int id)
         {
 
-            var dados = await _fornecedorService.BuscarId(id);
-            ViewData["Fornecedor"] = await _fornecedorService.Listar();
+            var dados = await _materialServices.BuscarId(id);
+            ViewData["Material"] = await _materialServices.Listar();
 
             return View("Index", dados);
         }
 
-        [Route("/Fornecedor/Deletar")]
-        [Route("/Fornecedor/Deletar/{id}")]
+        [Route("/Material/Deletar")]
+        [Route("/Material/Deletar/{id}")]
         [HttpGet]
         public async Task<IActionResult> Deletar(int id)
         {
             try
             {
-                await _fornecedorService.Deletar(id);
-                ViewData["Fornecedor"] = await _fornecedorService.Listar();
+                await _materialServices.Deletar(id);
+                ViewData["Material"] = await _materialServices.Listar();
 
-                return Ok(new Response<FornecedorViewModel>
+                return Ok(new Response<MaterialViewModel>
                 {
                     Message = "Excluido com sucesso",
                     Sucesso = true
@@ -97,7 +99,7 @@ namespace POC.Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response<FornecedorViewModel>
+                return BadRequest(new Response<MaterialViewModel>
                 {
                     Message = ex.Message,
                     Sucesso = false
