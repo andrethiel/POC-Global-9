@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace POC.Domain.Repository
 {
-    public class MaterialRepository : IMaterialRepository
+    public class MaterialRepository : IMaterialServices
     {
         private readonly IDataContext _context;
         public MaterialRepository(IDataContext context)

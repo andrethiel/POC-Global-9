@@ -27,6 +27,7 @@ function Salvar() {
         });
 
         if (response.sucesso) {
+            j('#modalExcluir').modal('hide')
             appendAlert(response.message, 'success')
             refresh()
         } else {

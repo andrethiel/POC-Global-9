@@ -14,7 +14,19 @@ var errors = [];
 
 j(document).ready(function () {
     Salvar();
+    Formatacao();
 })
+
+function Formatacao() {
+    j('#quantidade').on('keyup', function () {
+        var format = parseFloat(j(this).val().replace(/\D/g, ''), 10);
+        if (format.toLocaleString() == "NaN") {
+            j(this).val(0);
+        } else {
+            j(this).val(format.toLocaleString());
+        }
+    })
+}
 
 function Salvar() {
     j('#salvar').on('click', async function () {
@@ -55,6 +67,7 @@ async function Excluir() {
     });
 
     if (response.sucesso) {
+        j('#modalExcluir').modal('hide')
         appendAlert(response.message, 'success')
         refresh()
     } else {

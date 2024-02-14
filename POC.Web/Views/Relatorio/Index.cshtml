@@ -1,0 +1,41 @@
+﻿@using POC.Negocio.Enumerador
+@model RelatorioViewModel
+
+
+<div class="container">
+    <div id="alerta"></div>
+    <div class="row gap-3 clearfix">
+        <div class="col-12">
+            <input class="form-control" id="dataDe" value="@Model.DataDe" placeholder="Data de" type="date" />
+        </div>
+        <div class="col-12">
+            <input class="form-control" id="dataAte" value="@Model.DataAte" placeholder="Data até" type="date" />
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="FornecedorId" value="@Model.FornecedorId" asp-items="@ViewBag.Forncedor" id="fornecedorId">
+                <option value="0">Selecione o forncedor</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="MaterialId" asp-items="@ViewBag.Material" value="@Model.MaterialId" id="materialId">
+                <option value="0">Selecione material</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="TipoOperacao" asp-items="Html.GetEnumSelectList<TipoOperacao>()" value="@Model.TipoOperacao" id="tipoOperacao">
+                <option value="0">Selecione o tipo de operação</option>
+            </select>
+        </div>
+    </div>
+    <div style="margin-bottom: 10px">
+        <button class="btn btn-primary" id="gerar">Gerar</button>
+    </div>
+
+    <div class="row">
+        <div class="col-12" id="tabela">
+            
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Relatorio.js" asp-append-version="true" />

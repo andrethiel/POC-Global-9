@@ -17,13 +17,14 @@ namespace POC.Dados.Models
         public string TipoOperacao { get; private set; }
         public string ForncedorCNPJ { get; set; }
         public string NomeMaterial { get; set; }
+        public string CodigoMaterial { get; set; }
 
         public Estoque()
         {
             
         }
 
-        public Estoque(int id, string data, int fornecedor, int material, string quantidade, string valor, string operacao)
+        public Estoque(int id, string data, int fornecedor, int material, string quantidade, float valor, string operacao)
         {
             this.Id = id;
             this.Data = Convert.ToDateTime(data);

@@ -14,6 +14,6 @@ namespace POC.Negocio.Enumerador
         [Display(Name = "Saca")]
         Saca = 2,
         [Display(Name = "Peça")]
-        Peca = 3
+        Peça = 3
     }
 }

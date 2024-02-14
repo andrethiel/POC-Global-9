@@ -9,10 +9,9 @@ namespace POC.Dados.Context
 {
     public interface IDataContext
     {
-        Task<List<T>> ExecuteList<T>(string sql, T Parameters);
+        Task<List<T>> ExecuteList<T>(string sql, DynamicParameters Parameters);
         Task<T> ExecuteQuery<T>(string sql, DynamicParameters Parameters);
         Task ExecuteSave<T>(string sql, T Parameters);
-        Task ExecuteUpdate<T>(string sql, T Parameters);
-        Task<int> ExecuteSaveScalar<T>(string sql, T Parameters);
+        Task<List<T>> ExecuteList<T>(string sql);
     }
 }

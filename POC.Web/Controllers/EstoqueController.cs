@@ -40,6 +40,7 @@ namespace POC.Web.Controllers
             {
                 if (!validacao.IsValid)
                 {
+                    ListarFornecedorMaterial();
                     return BadRequest(validacao.Errors.ConversaoValidator());
                 }
 
@@ -55,6 +56,7 @@ namespace POC.Web.Controllers
 
 
                 ViewData["Estoque"] = await _estoqueServices.Listar();
+                ListarFornecedorMaterial();
 
                 return Ok(new Response<EstoqueViewModel>
                 {
@@ -79,10 +81,10 @@ namespace POC.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Buscar(int id)
         {
-
+            ListarFornecedorMaterial();
             var dados = await _estoqueServices.BuscarId(id);
             ViewData["Estoque"] = await _estoqueServices.Listar();
-            ListarFornecedorMaterial();
+            
 
             return View("Index", dados);
         }

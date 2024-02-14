@@ -14,5 +14,7 @@ namespace POC.Negocio.Interfaces
         Task Deletar(int id);
         Task<IEnumerable<EstoqueViewModel>> Listar();
         Task<EstoqueViewModel> BuscarId(int id);
+
+        Task<IEnumerable<EstoqueViewModel>> ListarRelatorio();
     }
 }

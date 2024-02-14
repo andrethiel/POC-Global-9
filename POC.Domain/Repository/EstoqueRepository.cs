@@ -5,6 +5,7 @@ using POC.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,23 @@ namespace POC.Domain.Repository
                 string sql = $"SP_Estoque_BuscarId";
 
                 return await _context.ExecuteQuery<Estoque>(sql, param);
+            }
+            catch
+            {
+                throw new Exception("Erro ao buscar Estoque");
+            }
+        }
+
+        public async Task<List<Estoque>> BuscarMaterial(int id)
+        {
+            try
+            {
+                var param = new DynamicParameters();
+                param.Add("@MaterialId", id);
+
+                string sql = $"SP_Estoque_BuscarMaterial";
+
+                return await _context.ExecuteList<Estoque>(sql, param);
             }
             catch
             {
@@ -107,6 +125,23 @@ namespace POC.Domain.Repository
             catch
             {
                 throw new Exception("Erro ao inserir estoque");
+            }
+        }
+
+        public async Task<List<Estoque>> BuscarMaterialCodigo(string codigo, string tipoOperacao)
+        {
+            try
+            {
+                var param = new DynamicParameters();
+                param.Add("@CodigoMaterial", codigo);
+                param.Add("@TipoOperacao", tipoOperacao);
+
+                string sql = $"SP_Estoque_BuscarMaterialCodigo";
+                return await _context.ExecuteList<Estoque>(sql, param);
+            }
+            catch
+            {
+                throw new Exception("Erro ao listar fornecedor");
             }
         }
     }

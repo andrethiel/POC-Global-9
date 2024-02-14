@@ -25,7 +25,7 @@ namespace POC.Dados.Context
 
         }
 
-        public async Task<List<T>> ExecuteList<T>(string sql, T Parameters)
+        public async Task<List<T>> ExecuteList<T>(string sql, DynamicParameters Parameters)
         {
             using IDbConnection connection = Create();
 
@@ -50,20 +50,13 @@ namespace POC.Dados.Context
             await connection.ExecuteAsync(sql, Parameters, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task ExecuteUpdate<T>(string sql, T Parameters)
+        public async Task<List<T>> ExecuteList<T>(string sql)
         {
             using IDbConnection connection = Create();
 
-            await connection.ExecuteAsync(sql, Parameters, commandType: CommandType.Text);
-        }
+            var dados = await connection.QueryAsync<T>(sql, null, commandType: CommandType.Text);
 
-        public async Task<int> ExecuteSaveScalar<T>(string sql, T Parameters)
-        {
-            using IDbConnection connection = Create();
-
-            var dados = await connection.ExecuteScalarAsync<int>(sql, Parameters, commandType: CommandType.Text);
-
-            return dados;
+            return dados.ToList();
         }
 
         private SqlConnection Create()

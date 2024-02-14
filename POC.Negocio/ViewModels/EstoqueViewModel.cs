@@ -19,5 +19,6 @@ namespace POC.Negocio.ViewModels
 
         public string ForncedorCNPJ { get; set; }
         public string NomeMaterial { get; set; }
+        public string CodigoMaterial { get; set; }
     }
 }

@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace POC.Negocio.Services
 {
-    public class MaterialServices : IMaterialServices
+    public class MaterialServices : Interfaces.IMaterialServices
     {
-        private readonly IMaterialRepository _materialRepository;
-        public MaterialServices(IMaterialRepository materialRepository)
+        private readonly Domain.Interfaces.IMaterialServices _materialRepository;
+        public MaterialServices(Domain.Interfaces.IMaterialServices materialRepository)
         {
             _materialRepository = materialRepository;
         }

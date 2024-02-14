@@ -14,6 +14,8 @@ namespace POC.Domain.Interfaces
         Task Deletar(int id);
         Task<IEnumerable<Estoque>> Listar();
         Task<Estoque> BuscarId(int id);
+        Task<List<Estoque>> BuscarMaterial(int id);
+        Task<List<Estoque>> BuscarMaterialCodigo(string codigo, string tipoOperacao);
 
     }
 }

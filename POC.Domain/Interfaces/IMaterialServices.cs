@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POC.Domain.Interfaces
 {
-    public interface IMaterialRepository
+    public interface IMaterialServices
     {
         Task Salvar(Material model);
         Task Editar(Material model);

@@ -17,10 +17,12 @@ namespace POC.Web.InjecaoDependencia
             services.AddScoped<IDataContext, DataContext>();
             services.AddScoped<IFornecedorServices, FornecedorServices>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
-            services.AddScoped<IMaterialRepository, MaterialRepository>();
-            services.AddScoped<IMaterialServices, MaterialServices>();
+            services.AddScoped<Domain.Interfaces.IMaterialServices, MaterialRepository>();
+            services.AddScoped<Negocio.Interfaces.IMaterialServices, MaterialServices>();
             services.AddScoped<IEstoqueServices, EstoqueServices>();
             services.AddScoped<IEstoqueRepository, EstoqueRepository>();
+            services.AddScoped<IRelatorioServices, RelatorioServices>();
+            services.AddScoped<IRelatorioRepository, RelatorioRepository>();
 
             services.AddTransient<IValidator<FornecedorViewModel>, ValidatorFornecedor>();
             services.AddTransient<IValidator<MaterialViewModel>, ValidatorMaterial>();
