@@ -35,29 +35,29 @@ namespace POC.Negocio.Services
             foreach (var item in dados)
             {
                 var relatorioView = new RelatorioGeradoViewModel();
-                var estoque = await _esteoqueRepository.BuscarMaterialCodigo(item.CodigoMaterial, item.TipoOperacao);
-                if (estoque.Count > 0)
+                //var estoque = await _esteoqueRepository.BuscarMaterialCodigo(item.CodigoMaterial, item.TipoOperacao);
+                //if (estoque.Count > 0)
+                //{
+
+                //}
+                var valores = new EstoqueRelatorioViewModel()
                 {
-                    var valores = estoque.Select(x => new EstoqueRelatorioViewModel()
-                    {
-                        Data = x.Data.ToShortDateString(),
-                        Quantidade = x.Quantidade.ToString("F"),
-                        Valor = x.Valor.ToString("F"),
-                        TipoOperacao = x.TipoOperacao,
-                    }).OrderBy(x => x.TipoOperacao).ToList();
+                    Data = item.Data.ToShortDateString(),
+                    Quantidade = item.Quantidade.ToString("F"),
+                    Valor = item.Valor.ToString("F"),
+                    TipoOperacao = item.TipoOperacao,
+                };
+                //var valores = estoque.Select(x => ).OrderBy(x => x.TipoOperacao).ToList();
 
-                    listaValores.AddRange(valores);
+                listaValores.Add(valores);
 
-                    var materialView = await _materialServices.BuscarId(item.MaterialId);
+                var materialView = await _materialServices.BuscarId(item.MaterialId);
 
-                    if(materialView.Id != item.MaterialId)
-                        relatorioView.Material = materialView;
+                relatorioView.Material = materialView;
 
+                relatorioView.Valores = listaValores;
 
-                    relatorioView.Valores = listaValores;
-
-                    lista.Add(relatorioView);
-                }
+                lista.Add(relatorioView);
             }
             return lista;
         }

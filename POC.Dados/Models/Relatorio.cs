@@ -14,7 +14,9 @@ namespace POC.Dados.Models
         public int MaterialId { get; private set; }
         public string TipoOperacao { get; private set; }
         public string CodigoMaterial { get; private set; }
-
+        public DateTime Data { get; set; }
+        public decimal Quantidade { get; set; }
+        public decimal Valor { get; set; }
         public Relatorio()
         {
             

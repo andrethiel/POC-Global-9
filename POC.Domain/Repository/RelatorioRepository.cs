@@ -26,7 +26,8 @@ namespace POC.Domain.Repository
 
                 if(model.DataDe.HasValue && model.DataAte.HasValue)
                 {
-                    sql += $"and E.Data BETWEEN '{model.DataDe.Value}' AND '{model.DataAte}'";
+                    if(model.DataDe.Value.ToShortDateString() != "01/01/0001" && model.DataAte.Value.ToShortDateString() != "01/01/0001")
+                        sql += $"and E.Data BETWEEN '{model.DataDe.Value}' AND '{model.DataAte}'";
                 }
 
                 if(model.FornecedorId != 0)
