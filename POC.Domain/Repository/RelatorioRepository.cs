@@ -29,6 +29,21 @@ namespace POC.Domain.Repository
                     sql += $"and E.Data BETWEEN '{model.DataDe.Value}' AND '{model.DataAte}'";
                 }
 
+                if(model.FornecedorId != 0)
+                {
+                    sql += $"and F.Id = {model.FornecedorId}";
+                }
+
+                if(model.MaterialId != 0)
+                {
+                    sql += $"and M.Id = {model.FornecedorId}";
+                }
+
+                if(model.TipoOperacao != "0")
+                {
+                    sql += $"and E.TipoOperacao = {model.TipoOperacao}";
+                }
+
                 return await _context.ExecuteList<Relatorio>(sql);
             }
             catch
