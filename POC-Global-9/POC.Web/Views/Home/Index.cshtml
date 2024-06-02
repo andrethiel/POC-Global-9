@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row gap-3">
+        <div class="col-12">
+            <a asp-controller="Fornecedor" asp-action="Index" class="btn btn-primary">Cadastrar Fornecedes</a>
+        </div>
+        <div class="col-12">
+            <a asp-controller="Material" asp-action="Index" class="btn btn-primary">Cadastrar Materiais</a>
+        </div>
+        <div class="col-12">
+            <a asp-controller="Estoque" asp-action="Index" class="btn btn-primary">Movimentar Estoques</a>
+        </div>
+        <div class="col-12">
+            <a asp-controller="Relatorio" asp-action="Index" class="btn btn-primary">Gerar Relórios</a>
+        </div>
+    </div>
+</div>

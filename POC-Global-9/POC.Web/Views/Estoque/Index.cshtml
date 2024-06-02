@@ -1,0 +1,86 @@
+﻿@using POC.Web.Extensions
+@using POC.Negocio.Enumerador
+
+@model EstoqueViewModel
+@{
+     IEnumerable<EstoqueViewModel> lista = (IEnumerable<EstoqueViewModel>)ViewData["Estoque"];
+}
+
+<div class="container">
+    <div id="alerta"></div>
+    <div class="row gap-3 clearfix">
+        <input type="hidden" id="id" value="@Model.Id" />
+        <div class="col-12">
+            <input class="form-control" id="data" value="@Model.Data" placeholder="Data" type="date" />
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="FornecedorId" value="@Model.FornecedorId" asp-items="@ViewBag.Forncedor" id="fornecedorId">
+                <option value="0">Selecione o forncedor</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="MaterialId" asp-items="@ViewBag.Material" value="@Model.MaterialId" id="materialId">
+                <option value="0">Selecione material</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <input class="form-control" id="quantidade" value="@Model.Quantidade" placeholder="Quantidade" />
+        </div>
+        <div class="col-12">
+            <input class="form-control" id="valor" value="@Model.Valor" placeholder="Valor" />
+        </div>
+        <div class="col-12">
+            <select class="form-select" asp-for="TipoOperacao" asp-items="Html.GetEnumSelectList<TipoOperacao>()" value="@Model.TipoOperacao" id="tipoOperacao">
+                <option value="0">Selecione o tipo de operação</option>
+            </select>
+        </div>
+    </div>
+    <div style="margin-bottom: 10px">
+        <button class="btn btn-primary" id="salvar">Salvar</button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            @(Html
+                .Grid(lista)
+                .Build(columns =>
+                {
+                    columns.Add(x => x.Data).Titled("Data");
+                    columns.Add(x => x.ForncedorCNPJ).Titled("Fornecedor");
+                    columns.Add(x => x.NomeMaterial).Titled("Material");
+                    columns.Add(x => x.Quantidade).Titled("Quantidade");
+                    columns.Add(x => x.Valor).Titled("Valor");
+                    columns.Add(x => x.TipoOperacao).Titled("Tipo operação");
+                    columns.Add().RenderedAs(x => (
+                    Html.ActionLink("Editar", "Buscar", new { Id = x.Id }, new { @class = "btn btn-primary" }).ToHtmlString()
+                    + ($"<button style='margin-left: 10px' class='btn btn-danger' onclick='Modal({x.Id})'>Excluir</button>")
+                    )).Encoded(false).Titled("ação");
+                })
+                .Using(GridFilterMode.Header)
+                .Empty("No data found")
+                .Pageable()
+                )
+        </div>
+    </div>
+</div>
+
+<div id="modalExcluir" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Atenção</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idEstoque" />
+                <p>Desesa excluir ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Excluir()" class="btn btn-danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Estoque.js" asp-append-version="true" />

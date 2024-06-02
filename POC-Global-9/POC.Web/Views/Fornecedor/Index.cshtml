@@ -1,0 +1,63 @@
+﻿@using POC.Web.Extensions
+@model FornecedorViewModel
+@{
+    IEnumerable<FornecedorViewModel> lista = (IEnumerable<FornecedorViewModel>)ViewData["Fornecedor"];
+}
+
+<div class="container">
+    <div id="alerta"></div>
+    <div class="row gap-3 clearfix">
+        <input type="hidden" id="id" value="@Model.Id" />
+        <div class="col-12">
+            <input class="form-control" id="cnpj" value="@Model.CNPJ" placeholder="CNPJ" />
+        </div>
+        <div class="col-12">
+            <input class="form-control" id="razao" value="@Model.RazaoSocial" placeholder="Razão Social" />
+        </div>
+    </div>
+    <div style="margin-bottom: 10px">
+        <button class="btn btn-primary" id="salvar">Salvar</button>
+    </div>
+    
+
+    <div class="row">
+        <div class="col-12">
+            @(Html
+                .Grid(lista)
+                .Build(columns =>
+                {
+                    columns.Add(x => x.CNPJ).Titled("CNPJ");
+                    columns.Add(x => x.RazaoSocial).Titled("Razão Social");
+                    columns.Add().RenderedAs(x => (
+                    Html.ActionLink("Editar", "Buscar", new { Id = x.Id }, new { @class = "btn btn-primary" }).ToHtmlString()
+                    + ($"<button style='margin-left: 10px' class='btn btn-danger' onclick='Modal({x.Id})'>Excluir</button>")
+                    )).Encoded(false).Titled("ação");
+                })
+                .Using(GridFilterMode.Header)
+                .Empty("No data found")
+                .Pageable()
+                )
+        </div>
+
+    </div>
+</div>
+
+<div id="modalExcluir" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Atenção</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idFornecedor" />
+                <p>Desesa excluir esse fornecedor</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Excluir()" class="btn btn-danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Fornecedor.js" asp-append-version="true" />
